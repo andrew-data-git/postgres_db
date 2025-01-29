@@ -1,0 +1,87 @@
+
+# Raw data
+
+cheeses.csv
+
+
+# Processed data
+
+cheeses.csv
+
+
+# Database
+
+cheese_db
+
+
+# Tables
+
+cheeses = raw dataset, a staging table of 'raw' data
+    cheese_id INT PRIMARY KEY,  # unique id
+    cheese TEXT,                # name of cheese, in latin characters
+    url TEXT,                   # link to page of cheese.com
+    milk TEXT,                  # list, of which animals produced this milk e.g 'cow, goat, sheep'
+    country TEXT,               # list, of producer countries
+    region TEXT,                # list, of sub-regions of these countries e.g 'Brooklyn NY'
+    family TEXT,                # which family of cheese, many records are NA
+    type TEXT,                  # list, of type e.g 'semi-hard, artisan'
+    fat_content TEXT,           # percentage, or a range of percentages, or weight in g, or range of g
+    calcium_content TEXT,       # ratio or mg calcium per gram e.g '1050 mg/100g'
+    texture TEXT,               # list, of texttures e.g 'creamy, crumbly, dense, semi firm'
+    rind TEXT,                  # cheese coating, if coated
+    color TEXT,                 # free-text colour of cheese
+    flavor TEXT,                # list, of flavour profiles e.g 'burnt caramel, citrusy, herbaceous'
+    aroma TEXT,                 # list, of aroma profiles e.g 'perfumed, pungent'
+    vegetarian TEXT,            # boolean value
+    vegan TEXT,                 # boolean value
+    synonyms TEXT,              # alternative names e.g 'Abbot's Gold Cheddar with Caramelised Onion, Caramelised Onion Cheddar, English Cheddar with Caramelized Onions'
+    alt_spellings TEXT,         # e.g 'Tamié, Trappiste de Tamie, Abbey of Tamie'
+    producers TEXT              # production company
+
+fct_cheese = main table of cheese and information
+    PK cheese_id : INT
+    FK animal_id : INT          # dim_animal[animal_id] 
+    FK country_id : INT         # dim_country[country_id] 
+    is_vegetarian : BOOLEAN     
+    url : TEXT
+    cheese : TEXT
+    is_vegan : BOOLEAN          
+    FK producer_id : INT        # dim_producers[producer_id]    
+    fat_content : SMALLINT      # calculated by midpoint of cheeses[fat_content], and make INT type
+    calcium_content : SMALLINT  # calulated by extracting number from cheeses[fat_content] 
+    FK colour_id : INT          # dim_colour[colour_id] 
+    FK rind_id : INT            # dim_rind[rind_id]
+
+dim_rind = rinds extracted from cheeses
+    PK  rind_id : INT
+    rind : TEXT
+
+dim_animal = set of all milking animals
+    PK  animal_id : INT
+    animal : TEXT
+
+dim_country = countries of the world
+    PK  country_id : INT
+    country : TEXT
+
+dim_producers = producer extracted from cheeses
+    PK producer_id : INT
+    producer : TEXT
+
+dim_type = type extracted from cheeses 
+    PK  type_id : INT
+    type : TEXT
+
+dim_texture = texture extracted from cheeses 
+    PK  texture_id : INT
+    texture : TEXT
+
+dim_colour = colour extracted from cheeses, with alias
+    PK colour_id : INT
+    colour : TEXT
+    simple_colour : VARCHAR(15)
+
+dim_taste = aromas and flavours extracted from cheeses 
+    PK  taste_id : INT
+    taste : TEXT 
+
