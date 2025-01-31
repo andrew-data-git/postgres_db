@@ -38,7 +38,7 @@ cheeses = raw dataset, a staging table of 'raw' data
     alt_spellings TEXT,         # e.g 'Tamié, Trappiste de Tamie, Abbey of Tamie'
     producers TEXT              # production company
 
-fct_cheese = main table of cheese and information
+dim_cheese = main table of cheese and information
     PK cheese_id : INT
     FK animal_id : INT          # dim_animal[animal_id] 
     FK country_id : INT         # dim_country[country_id] 
